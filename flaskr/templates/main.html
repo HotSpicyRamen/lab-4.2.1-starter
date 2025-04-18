@@ -1,36 +1,33 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <head>
-        <title>{% block page_name %}{{ page_name }}{% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
+    <title>{% block page_name %}{{ page_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <!-- The below tag is using Bulma CSS. Try replacing line 14 with line 13. -->
-    <!-- <div class="has-text-success-dark is-size-4  has-text-weight-medium"> -->
-    <div>
-        <a href="{{ url_for('home') }}">
-            Home
-        </a>
-        &nbsp;&nbsp;
-        <a href="{{ url_for('all_pages') }}">
-            Pages
-        </a>
-        &nbsp;&nbsp;
-        <a href="{{ url_for('about') }}">
-            About
-        </a>
-    </div>
+    <!-- Navbar with cat emoji and centered links -->
+    <nav class="navbar is-light px-4 py-2" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{{ url_for('home') }}" style="font-size: 24px;">
+                🐈⛷
+            </a>
+        </div>
 
-    <!-- The below tag is using Bulma CSS. Try replacing line 30 with line 29. -->
-    <!-- <div class="content"> -->
-    <div>
-        {% block content %}{{ page_content }}{% endblock %}
-    </div>
+        <div class="navbar-menu is-active" style="justify-content: center; width: 100%;">
+            <a class="navbar-item {% if request.path == '/' %}has-text-weight-bold is-underlined{% endif %}" href="{{ url_for('home') }}">
+                Home
+            </a>
+            <a class="navbar-item {% if request.path == '/about' %}has-text-weight-bold is-underlined{% endif %}" href="{{ url_for('about') }}">
+                About
+            </a>
+        </div>
+    </nav>
 
+    <!-- Main content area -->
+    <main class="section">
+        <div class="container">
+            {% block content %}{{ page_content }}{% endblock %}
+        </div>
+    </main>
 </body>
-
 </html>

@@ -1,14 +1,14 @@
 {% extends "main.html" %}
 
 {% block page_name %}
-About Cats on Skis
+Cats on Skis
 {% endblock %}
 
 {% block content %}
 <section class="section">
   <div class="container has-text-centered">
-    <h1 class="title is-2">About Cats on Skis</h1>
-    <p class="subtitle">Click a cat to know more about it!</p>
+    <h1 class="title is-2">Welcome to Cats on Skis!</h1>
+    <p class="subtitle">Discover fearless feline skiers. Click one to learn more!</p>
 
     <div class="columns is-centered">
       {% for cat in cats %}
@@ -18,7 +18,7 @@ About Cats on Skis
             <img src="{{ url_for('images', image=cat.image) }}" alt="{{ cat.name }}">
           </figure>
           <h3 class="title is-5">{{ cat.name }}</h3>
-          <a class="has-text-link" href="{{ url_for('pages', name=cat.slug) }}">View Profile</a>
+          <a class="has-text-link" href="{{ url_for('pages', name=cat.slug) }}">Read more</a>
         </div>
       </div>
       {% endfor %}

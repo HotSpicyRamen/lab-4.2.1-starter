@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+
+{% block page_name %}
+{{ cat_name }}
+{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container has-text-centered">
+    <h2 class="title is-2">{{ cat_name }}</h2>
+    <figure class="image is-200x200 is-inline-block mb-4">
+      <img src="{{ url_for('images', image=cat_image) }}" alt="{{ cat_name }}">
+    </figure>
+    <div class="content has-text-centered is-medium px-6" style="max-width: 900px; margin: 0 auto;">
+      <p>{{ cat_info }}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

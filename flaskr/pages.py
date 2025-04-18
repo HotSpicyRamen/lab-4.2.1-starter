@@ -1,52 +1,47 @@
-""" All content related endpoints are created here.
-
-Endpoints:
-URI             | Method | Description
-----------------|--------|-------------
-/               | GET    | Returns the home page
-/about          | GET    | Returns an about page
-/images/<image> | GET    | Returns the image from backend.get_image
-/pages          | GET    | Returns all of the pages in a list via backend.get_all_page_names
-/pages/<page>   | GET    | Returns the page from backend.get_wiki_page
-"""
-
 from flask import render_template, send_file
 
 
 def make_endpoints(app, backend):
-    """Constructs the endpoints that display content for the wiki.
+    """Constructs the endpoints that display content for the wiki."""
 
-    Args:
-        backend: An object allowing our wiki to interact with a database/store.
-    """
+    cats = [
+        {
+            "name": "Slalom Sammy",
+            "slug": "slalom-sammy",
+            "image": "slalom-sammy"
+        },
+        {
+            "name": "Nefarious Purpuss",
+            "slug": "nefarious-purpuss",
+            "image": "random-cat-skiing"
+        }
+    ]
 
     @app.route("/")
     def home():
-        """Returns the home page."""
-        return render_template("main.html",
-                               page_name="Wiki Index",
-                               page_content="Welcome to the Wiki!")
+        return render_template("home.html", page_name="Cats on Skis", cats=cats)
 
     @app.route("/about")
     def about():
-        """Returns an about page."""
-        return render_template("about.html")
-
-    @app.route("/images/<image>")
-    def images(image):
-        """Returns the image from backend.get_image."""
-        return send_file(backend.get_image(image), mimetype='image/jpeg')
-
-    @app.route("/pages")
-    def all_pages():
-        """Returns all of the pages in a list via backend.get_all_page_names."""
-        return render_template("pages.html",
-                               page_name="Wiki Index",
-                               all_pages=backend.get_all_page_names())
+        return render_template("about.html", page_name="About Cats on Skis", cats=cats)
 
     @app.route("/pages/<name>")
     def pages(name):
-        """Returns the page from backend.get_wiki_page"""
-        return render_template("main.html",
-                               page_name=name,
-                               page_content=backend.get_wiki_page(name))
+        matching_cat = next((cat for cat in cats if cat["slug"] == name), None)
+
+        if not matching_cat:
+            return "Cat not found", 404
+
+        cat_name = matching_cat["name"]
+        cat_image = matching_cat["image"]
+        cat_info = backend.get_wiki_page(name)
+
+        return render_template("cat_page.html",
+                               page_name=cat_name,
+                               cat_name=cat_name,
+                               cat_image=cat_image,
+                               cat_info=cat_info)
+
+    @app.route("/images/<image>")
+    def images(image):
+        return send_file(backend.get_image(image), mimetype='image/jpeg')
